@@ -1,0 +1,44 @@
+.gallery-grid {
+  /* Кількість стовпців та відстань між ними */
+  column-count: 4;
+  column-gap: 40px;
+
+  /* Відступ навколо */
+  padding: 40px;
+}
+
+.artwork-card {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 24px; /* відступ між рядками */
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.artwork-caption {
+  padding: 8px;
+  font-size: 14px;
+  color: #333;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: #fff;
+}
+.artwork-card img {
+  width: 100%;
+  display: block;
+}
+
+/* Для адаптиву зменшуємо колонки */
+@media (max-width: 1200px) {
+  .gallery-grid { column-count: 3; }
+}
+@media (max-width: 900px) {
+  .gallery-grid { column-count: 2; }
+}
+@media (max-width: 600px) {
+  .gallery-grid { column-count: 1; }
+}
