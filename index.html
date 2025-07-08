@@ -1,41 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Galleria</title>
-    <link rel="stylesheet" href="./reset.css">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./reset.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class=".libre-baskerville-bold">
     <header class="site-header">
-        <h1 class="logo">galleria.</h1>
-        <button id="startSlideshow" class="btn-slideshow">START SLIDESHOW</button>
-      </header>
-    
-      <main>
-        <!-- Контейнер для картин -->
+      <a class="logo"><img src="./assets/galleria..svg" alt="" /></a>
+      <button id="startSlideshow" class="btn-slideshow">START SLIDESHOW</button>
+    </header>
+
+    <main>
+      <!-- hero -->
+      <article class="galiery-container">
         <div id="gallery" class="gallery-grid"></div>
-      </main>
-    
-      <!-- Шаблон однієї картки картини -->
-      <!-- <template id="artwork-template">
-        <article class="artwork-card">
-          <img class="artwork-thumb" src="" alt="" />
-      
-          <div class="artwork-text">
-            <h2 class="artwork-title"></h2>
-            <p class="artwork-year"></p>
-            <p class="artwork-description"></p>
-            <p class="artwork-artist">
-              <img class="artist-photo" src="" alt="" />
-              <span class="artist-name"></span>
-            </p>
-            <p><a class="artwork-source" href="" target="_blank">Learn more</a></p>
-          </div>
-        </article>
-      </template> -->
+      </article>
+      <!-- template -->
+      <article id="artwork-template">
+        <div class="artwork-item">
+          <header class="item-header">
+            <h2 class="item-picture-name">Starry Night</h2>
+            <p class="item-artist-name">Vincent Van Gogh</p>
+          </header>
+
+          <main class="item-main">
+            <div class="item-images-hero">
+              <img
+                src="./assets/starry-night/hero-large.jpg"
+                alt="Starry Night"
+              />
+              <button class="btn-view-image">
+                <img src="./assets/view-image-icon.svg" alt="" />VIEW IMAGE
+              </button>
+            </div>
+            <div class="item-artist-image">
+              <img src="./assets/starry-night/artist.jpg" alt="" />
+            </div>
+            <div class="item-description">
+              <p class="item-description-text">
+                Although The Starry Night was painted during the day in Van
+                Gogh's ground-floor studio, it would be inaccurate to state that
+                the picture was painted from memory. The view has been
+                identified as the one from his bedroom window, facing east, a
+                view which Van Gogh painted variations of no fewer than
+                twenty-one times, including The Starry Night. "Through the
+                iron-barred window," he wrote to his brother, Theo, around 23
+                May 1889, "I can see an enclosed square of wheat ... above
+                which, in the morning, I watch the sun rise in all its glory."
+              </p>
+              <a class="item-source" href="https://example.com" target="_blank" rel="noopener noreferrer">GO TO SOURCE</a>
+
+            </div>
+          </main>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill"></div>
+      </div>
+      <div class="footer-items">
+        <div class="footer-item-name">
+          <p class="item-picture-name">Starry Night</p>
+          <p class="item-artist-name">Vincent Van Gogh</p>
+        </div>
+        <div class="btns-slide-move">
+          <button class="btn-slide-prev"><img src="./assets/btn-slide-prev.svg" alt=""></button>
+          <button class="btn-slide-next"><img src="./assets/btn-slide-next.svg" alt=""></button>
+        </div>
+      </div>
+    </footer>
 
     <script src="./script.js"></script>
-</body>
+  </body>
 </html>

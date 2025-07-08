@@ -1,4 +1,6 @@
 const gallery = document.getElementById('gallery');
+const btnSlidePrev = document.querySelector('.btn-slide-prev');
+const btnSlideNext = document.querySelector('.btn-slide-next');
 
 let masNamesDesktop = [
   'Starry Night',
@@ -37,8 +39,8 @@ fetch('./data.json')
       const caption = document.createElement('div');
       caption.className = 'artwork-caption';
       caption.innerHTML = `
-        <strong>${item.name}</strong><br>
-        <em>${item.artist.name}</em>
+        <p class="picture-name">${item.name}</p>
+        <p class="artist-name">${item.artist.name}</p>
       `;
       card.appendChild(caption);
 
@@ -116,3 +118,74 @@ updateMasNames();
 mq1200.addEventListener('change', updateMasNames);
 mq900.addEventListener('change', updateMasNames);
 mq600.addEventListener('change', updateMasNames);
+
+const totalSlides = masNamesDesktop.length; // або скільки у тебе слайдів
+let currentSlide = 5; // активний слайд (змінюй це при переходах)
+
+function updateProgressBar(slideIndex) {
+  const fill = document.querySelector('.progress-bar-fill');
+  const percent = (100 / totalSlides) * slideIndex;
+  fill.style.width = `${percent}%`;
+}
+
+let currentIndex = 0;
+let slidesData = [];
+
+// Основна функція
+function changeSlide() {
+  fetch('./data.json')
+    .then((res) => res.json())
+    .then((data) => {
+      slidesData = data;
+      renderSlide(currentIndex); // показати перший слайд
+
+      // Слухачі кнопок
+      btnSlidePrev.addEventListener('click', () => {
+        currentIndex =
+          (currentIndex - 1 + slidesData.length) % slidesData.length;
+        renderSlide(currentIndex);
+      });
+
+      btnSlideNext.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slidesData.length;
+        renderSlide(currentIndex);
+      });
+    })
+    .catch((error) =>
+      console.error('Помилка при завантаженні слайдів:', error)
+    );
+}
+
+// Функція оновлення контенту слайда
+function renderSlide(index) {
+  const slide = slidesData[index];
+
+  // Заголовок
+  document.querySelector('.item-picture-name').textContent = slide.name;
+  document
+    .querySelectorAll('.item-artist-name')
+    .forEach((el) => (el.textContent = slide.artist.name));
+
+  // Зображення
+  document.querySelector('.item-images-hero img').src = slide.images.hero.large;
+  document.querySelector('.item-images-hero img').alt = slide.name;
+  document.querySelector('.item-artist-image img').src = slide.artist.image;
+  document.querySelector('.item-description-text').textContent =
+    slide.description;
+  document
+    .querySelector('.item-description')
+    .setAttribute('data-year', slide.year);
+
+  // Посилання
+  const sourceLink = document.querySelector('.item-source');
+  sourceLink.href = slide.source;
+
+  // Прогрес-бар
+  const progressPercent = ((index + 1) / slidesData.length) * 100;
+  document.querySelector(
+    '.progress-bar-fill'
+  ).style.width = `${progressPercent}%`;
+}
+
+// Викликати функцію після завантаження DOM
+document.addEventListener('DOMContentLoaded', changeSlide);
