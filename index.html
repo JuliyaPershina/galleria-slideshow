@@ -21,11 +21,11 @@
 
     <main>
       <!-- hero -->
-      <article class="galiery-container">
+      <article id="hero-gallery">
         <div id="gallery" class="gallery-grid"></div>
       </article>
       <!-- template -->
-      <article id="artwork-template">
+      <article id="artwork-template" class="display-none">
         <div class="artwork-item">
           <header class="item-header">
             <h2 class="item-picture-name">Starry Night</h2>
@@ -57,15 +57,20 @@
                 May 1889, "I can see an enclosed square of wheat ... above
                 which, in the morning, I watch the sun rise in all its glory."
               </p>
-              <a class="item-source" href="https://example.com" target="_blank" rel="noopener noreferrer">GO TO SOURCE</a>
-
+              <a
+                class="item-source"
+                href="https://example.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GO TO SOURCE</a
+              >
             </div>
           </main>
         </div>
       </article>
     </main>
 
-    <footer>
+    <footer class="display-none">
       <div class="progress-bar-container">
         <div class="progress-bar-fill"></div>
       </div>
@@ -75,8 +80,12 @@
           <p class="item-artist-name">Vincent Van Gogh</p>
         </div>
         <div class="btns-slide-move">
-          <button class="btn-slide-prev"><img src="./assets/btn-slide-prev.svg" alt=""></button>
-          <button class="btn-slide-next"><img src="./assets/btn-slide-next.svg" alt=""></button>
+          <button class="btn-slide-prev">
+            <img src="./assets/btn-slide-prev.svg" alt="" />
+          </button>
+          <button class="btn-slide-next">
+            <img src="./assets/btn-slide-next.svg" alt="" />
+          </button>
         </div>
       </div>
     </footer>

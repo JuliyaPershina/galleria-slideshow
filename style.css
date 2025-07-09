@@ -10,7 +10,7 @@
   font-style: normal;
 }
 
-body{
+body {
   height: calc(100vh - 96px);
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@ header {
 /* ----------------main--------------- */
 /* ----------------hero--------------- */
 
-.galiery-container {
+.display-none {
   display: none;
 }
 .gallery-grid {
@@ -226,21 +226,21 @@ header {
     color: #7d7d7d;
     font-family: 'Libre Baskerville';
     font-weight: 700;
-    position: relative; /* обов’язково, щоб позиціювати псевдоелемент */
-  z-index: 1;
+    position: relative;
+    z-index: 1;
   }
   .item-description::before {
     content: attr(data-year);
     position: absolute;
     top: -115px;
     left: 0;
-    font-size: 200px; /* регулюй під свій макет */
-    color: rgba(0, 0, 0, 0.05); /* прозорий темний фон */
-    z-index: 0; /* щоб був під основним текстом */
-    pointer-events: none; /* щоб текст не блокував кліки */
+    font-size: 200px;
+    color: rgba(0, 0, 0, 0.05);
+    z-index: 0;
+    pointer-events: none;
     line-height: 1;
     font-weight: 700;
-    font-family: 'Libre Baskerville', serif; /* відповідний шрифт */
+    font-family: 'Libre Baskerville', serif;
   }
 
   .item-description-text {
@@ -265,7 +265,7 @@ footer {
     position: absolute;
     top: 0;
     left: 0;
-    height: 1px; /* Тонка лінія */
+    height: 1px;
     width: 100%;
     background-color: #e5e5e5;
     z-index: 9999;
@@ -274,7 +274,7 @@ footer {
   .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background-color: #000; /* Темний колір */
+    background-color: #000;
     transition: width 0.3s ease-in-out;
   }
   .footer-items {
@@ -307,15 +307,24 @@ footer {
     .btns-slide-move {
       width: 90px;
       height: 24px;
-      button{
+      button {
         background: transparent;
         border: none;
       }
     }
-    .btn-slide-prev {
-    }
-    .btn-slide-next {
-    }
+    .btn-slide-prev,
+.btn-slide-next {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-slide-prev.disabled,
+.btn-slide-next.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
   }
 }
 /* Для адаптиву зменшуємо колонки */

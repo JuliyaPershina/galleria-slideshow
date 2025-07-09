@@ -20,6 +20,33 @@ let masNamesDesktop = [
   'The Swing',
 ];
 
+const slideshowBtn = document.getElementById('startSlideshow');
+const artworkTemplate = document.getElementById('artwork-template');
+const footer = document.querySelector('footer');
+const heroGallery = document.getElementById('hero-gallery');
+
+let isSlideshowActive = false;
+
+slideshowBtn.addEventListener('click', () => {
+  isSlideshowActive = !isSlideshowActive;
+
+  if (isSlideshowActive) {
+    // Увімкнено слайдшоу
+    artworkTemplate.classList.remove('display-none');
+    footer.classList.remove('display-none');
+    heroGallery.classList.add('display-none');
+    slideshowBtn.textContent = 'STOP SLIDESHOW';
+  } else {
+    // Вимкнено слайдшоу
+    artworkTemplate.classList.add('display-none');
+    footer.classList.add('display-none');
+    heroGallery.classList.remove('display-none');
+    slideshowBtn.textContent = 'START SLIDESHOW';
+  }
+});
+
+
+
 fetch('./data.json')
   .then((res) => res.json())
   .then((data) => {
@@ -119,14 +146,7 @@ mq1200.addEventListener('change', updateMasNames);
 mq900.addEventListener('change', updateMasNames);
 mq600.addEventListener('change', updateMasNames);
 
-const totalSlides = masNamesDesktop.length; // або скільки у тебе слайдів
-let currentSlide = 5; // активний слайд (змінюй це при переходах)
-
-function updateProgressBar(slideIndex) {
-  const fill = document.querySelector('.progress-bar-fill');
-  const percent = (100 / totalSlides) * slideIndex;
-  fill.style.width = `${percent}%`;
-}
+// template  --------------------------------------------------
 
 let currentIndex = 0;
 let slidesData = [];
@@ -138,18 +158,42 @@ function changeSlide() {
     .then((data) => {
       slidesData = data;
       renderSlide(currentIndex); // показати перший слайд
-
+      updateButtonState()
       // Слухачі кнопок
       btnSlidePrev.addEventListener('click', () => {
-        currentIndex =
-          (currentIndex - 1 + slidesData.length) % slidesData.length;
-        renderSlide(currentIndex);
+        updateButtonState()
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderSlide(currentIndex);
+          updateButtonState();
+        }
       });
 
       btnSlideNext.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % slidesData.length;
-        renderSlide(currentIndex);
+        updateButtonState()
+        if (currentIndex < slidesData.length - 1) {
+          currentIndex++;
+          renderSlide(currentIndex);
+          updateButtonState();
+        }
       });
+
+      console.log(currentIndex);
+      
+      //  Функція оновлення стилю кнопок:
+      function updateButtonState() {
+        if (currentIndex === 0) {
+          btnSlidePrev.classList.add('disabled');
+        } else {
+          btnSlidePrev.classList.remove('disabled');
+        }
+
+        if (currentIndex === data.length - 1) {
+          btnSlideNext.classList.add('disabled');
+        } else {
+          btnSlideNext.classList.remove('disabled');
+        }
+      }
     })
     .catch((error) =>
       console.error('Помилка при завантаженні слайдів:', error)
@@ -161,7 +205,9 @@ function renderSlide(index) {
   const slide = slidesData[index];
 
   // Заголовок
-  document.querySelector('.item-picture-name').textContent = slide.name;
+  document
+    .querySelectorAll('.item-picture-name')
+    .forEach((el) => (el.textContent = slide.name));
   document
     .querySelectorAll('.item-artist-name')
     .forEach((el) => (el.textContent = slide.artist.name));
