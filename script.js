@@ -1,6 +1,4 @@
 const gallery = document.getElementById('gallery');
-const btnSlidePrev = document.querySelector('.btn-slide-prev');
-const btnSlideNext = document.querySelector('.btn-slide-next');
 
 let masNamesDesktop = [
   'Starry Night',
@@ -36,6 +34,9 @@ slideshowBtn.addEventListener('click', () => {
     footer.classList.remove('display-none');
     heroGallery.classList.add('display-none');
     slideshowBtn.textContent = 'STOP SLIDESHOW';
+
+    // Викликати тільки після відображення DOM елементів
+    changeSlide();
   } else {
     // Вимкнено слайдшоу
     artworkTemplate.classList.add('display-none');
@@ -44,7 +45,6 @@ slideshowBtn.addEventListener('click', () => {
     slideshowBtn.textContent = 'START SLIDESHOW';
   }
 });
-
 
 
 fetch('./data.json')
@@ -146,11 +146,14 @@ mq1200.addEventListener('change', updateMasNames);
 mq900.addEventListener('change', updateMasNames);
 mq600.addEventListener('change', updateMasNames);
 
-// template  --------------------------------------------------
+// -- slider  --------------------------------------------------
 
-let currentIndex = 0;
+let currentIndex = 1;
 let slidesData = [];
 
+const btnSlidePrev = document.querySelector('.btn-slide-prev');
+const btnSlideNext = document.querySelector('.btn-slide-next');
+console.log(btnSlidePrev, btnSlideNext);
 // Основна функція
 function changeSlide() {
   fetch('./data.json')
@@ -160,6 +163,7 @@ function changeSlide() {
       renderSlide(currentIndex); // показати перший слайд
       updateButtonState()
       // Слухачі кнопок
+      
       btnSlidePrev.addEventListener('click', () => {
         updateButtonState()
         if (currentIndex > 0) {
@@ -188,7 +192,7 @@ function changeSlide() {
           btnSlidePrev.classList.remove('disabled');
         }
 
-        if (currentIndex === data.length - 1) {
+        if (currentIndex === slidesData.length - 1) {
           btnSlideNext.classList.add('disabled');
         } else {
           btnSlideNext.classList.remove('disabled');
@@ -200,7 +204,15 @@ function changeSlide() {
     );
 }
 
-// Функція оновлення контенту слайда
+function setupPopoverHandlers() {
+  const btnViewImage = document.querySelector('.btn-view-image');
+  const btnClose = document.querySelector('.button-view-close');
+  const popover = document.getElementById('pop-picture');
+
+  if (!btnViewImage || !btnClose || !popover) return;
+
+}
+
 function renderSlide(index) {
   const slide = slidesData[index];
 
@@ -231,7 +243,17 @@ function renderSlide(index) {
   document.querySelector(
     '.progress-bar-fill'
   ).style.width = `${progressPercent}%`;
+
+  //  Поповерхове зображення (VIEW IMAGE)
+  const popImage = document.querySelector('#pop-picture img');
+  if (popImage) {
+    popImage.src = slide.images.gallery;
+    popImage.alt = slide.name;
+  }
 }
 
-// Викликати функцію після завантаження DOM
-document.addEventListener('DOMContentLoaded', changeSlide);
+document.addEventListener('DOMContentLoaded', () => {
+  changeSlide(); // завантаження слайдів
+  setupPopoverHandlers(); // слухачі поповера
+});
+

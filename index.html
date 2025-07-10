@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./reset.css" />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body class=".libre-baskerville-bold">
+  <body class="libre-baskerville-bold">
     <header class="site-header">
       <a class="logo"><img src="./assets/galleria..svg" alt="" /></a>
       <button id="startSlideshow" class="btn-slideshow">START SLIDESHOW</button>
@@ -24,7 +24,7 @@
       <article id="hero-gallery">
         <div id="gallery" class="gallery-grid"></div>
       </article>
-      <!-- template -->
+      <!-- slider -->
       <article id="artwork-template" class="display-none">
         <div class="artwork-item">
           <header class="item-header">
@@ -38,13 +38,37 @@
                 src="./assets/starry-night/hero-large.jpg"
                 alt="Starry Night"
               />
-              <button class="btn-view-image">
-                <img src="./assets/view-image-icon.svg" alt="" />VIEW IMAGE
-              </button>
             </div>
             <div class="item-artist-image">
               <img src="./assets/starry-night/artist.jpg" alt="" />
             </div>
+
+            <button
+              class="btn-view-image"
+              popovertarget="pop-picture"
+              popovertargetaction="show"
+            >
+              <img src="./assets/view-image-icon.svg" alt="" />VIEW IMAGE
+            </button>
+            <div id="pop-picture" popover="manual">
+              <div class="pop-wrapper">
+                <div class="pop-view-close">
+                  <button
+                    class="button-view-close"
+                    popovertarget="pop-picture"
+                    popovertargetaction="hide"
+                  >
+                    CLOSE
+                  </button>
+                  <img
+                    class="pop-view-img"
+                    src="./assets/starry-night/gallery.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+
             <div class="item-description">
               <p class="item-description-text">
                 Although The Starry Night was painted during the day in Van
