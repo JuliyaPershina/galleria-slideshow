@@ -46,7 +46,6 @@ slideshowBtn.addEventListener('click', () => {
   }
 });
 
-
 fetch('./data.json')
   .then((res) => res.json())
   .then((data) => {
@@ -148,60 +147,55 @@ mq600.addEventListener('change', updateMasNames);
 
 // -- slider  --------------------------------------------------
 
-let currentIndex = 1;
+
+let currentIndex = 0;
 let slidesData = [];
 
 const btnSlidePrev = document.querySelector('.btn-slide-prev');
 const btnSlideNext = document.querySelector('.btn-slide-next');
-console.log(btnSlidePrev, btnSlideNext);
-// Основна функція
+
+
+let listenersAttached = false;
+
 function changeSlide() {
   fetch('./data.json')
     .then((res) => res.json())
     .then((data) => {
       slidesData = data;
-      renderSlide(currentIndex); // показати перший слайд
-      updateButtonState()
-      // Слухачі кнопок
-      
-      btnSlidePrev.addEventListener('click', () => {
-        updateButtonState()
-        if (currentIndex > 0) {
-          currentIndex--;
-          renderSlide(currentIndex);
-          updateButtonState();
-        }
-      });
+      renderSlide(currentIndex);
+      updateButtonState();
 
-      btnSlideNext.addEventListener('click', () => {
-        updateButtonState()
-        if (currentIndex < slidesData.length - 1) {
-          currentIndex++;
-          renderSlide(currentIndex);
-          updateButtonState();
-        }
-      });
-
-      console.log(currentIndex);
-      
-      //  Функція оновлення стилю кнопок:
-      function updateButtonState() {
-        if (currentIndex === 0) {
-          btnSlidePrev.classList.add('disabled');
-        } else {
-          btnSlidePrev.classList.remove('disabled');
-        }
-
-        if (currentIndex === slidesData.length - 1) {
-          btnSlideNext.classList.add('disabled');
-        } else {
-          btnSlideNext.classList.remove('disabled');
-        }
+      if (!listenersAttached) {
+        btnSlidePrev.addEventListener('click', handlePrev);
+        btnSlideNext.addEventListener('click', handleNext);
+        listenersAttached = true;
       }
-    })
-    .catch((error) =>
-      console.error('Помилка при завантаженні слайдів:', error)
-    );
+    });
+}
+
+function handlePrev() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderSlide(currentIndex);
+    updateButtonState();
+      console.log(currentIndex);
+  }
+}
+function handleNext() {
+  if (currentIndex < slidesData.length - 1) {
+    currentIndex++;
+    renderSlide(currentIndex);
+    updateButtonState();
+      console.log(currentIndex);
+  }
+}
+
+function updateButtonState() {
+  btnSlidePrev.classList.toggle('disabled', currentIndex === 0);
+  btnSlideNext.classList.toggle(
+    'disabled',
+    currentIndex === slidesData.length - 1
+  );
 }
 
 function setupPopoverHandlers() {
@@ -210,7 +204,6 @@ function setupPopoverHandlers() {
   const popover = document.getElementById('pop-picture');
 
   if (!btnViewImage || !btnClose || !popover) return;
-
 }
 
 function renderSlide(index) {
