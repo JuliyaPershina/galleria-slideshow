@@ -137,34 +137,47 @@ header {
   .item-header {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: start;
     width: 100%;
     max-width: 445px;
-    height: 236px;
+    height: 100%;
     position: absolute;
     top: 100px;
-    right: 505px;
-    background: white;
+    left: 410px;
     z-index: 1;
-    padding-inline: 65px;
-    padding-block-end: 65px;
     padding-block-start: 0;
+    padding-block-end: 75px;
     border: none;
+    .item-header-capture {
+      padding-block-end: 65px;
+      padding-inline: 65px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      .item-picture-name {
+        font-family: 'Libre Baskerville';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 56px;
+        line-height: 64px;
+      }
+      .item-artist-name {
+        font-family: 'Libre Baskerville';
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 19px;
+        color: #7d7d7d;
+      }
+    }
+    .item-artist-image {
+      width: 128px;
+      height: 128px;
+      margin-inline-start: 95px;
+    }
   }
-  .item-picture-name {
-    font-family: 'Libre Baskerville';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 56px;
-    line-height: 64px;
-  }
-  .item-artist-name {
-    font-family: 'Libre Baskerville';
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 19px;
-    color: #7d7d7d;
-  }
+
   .item-main {
     display: flex;
     justify-content: space-between;
@@ -208,13 +221,6 @@ header {
     background: hsl(0 0 100% / 0.25);
   }
 
-  .item-artist-image {
-    width: 128px;
-    height: 128px;
-    position: absolute;
-    bottom: 0;
-    left: 545px;
-  }
   .item-description {
     height: 510px;
     display: flex;
@@ -265,8 +271,8 @@ header {
     mix-blend-mode: normal;
 
     position: fixed;
-  inset: 0;
-  z-index: 1000;
+    inset: 0;
+    z-index: 1000;
 
     .pop-wrapper {
       height: 100%;
@@ -379,18 +385,74 @@ footer {
 }
 
 /* Для адаптиву зменшуємо колонки */
+/* @media (max-width: 1370px) {
+  .item-header{
+    max-width: 500px;
+  }
+} */
+
 @media (max-width: 1200px) {
   .gallery-grid {
     column-count: 3;
   }
+  .artwork-item {
+    .item-header {
+      left: auto;
+      right: -20px;
+      max-width: 85%;
+    }
+  }
 }
-@media (max-width: 900px) {
+@media (max-width: 1080px) {
   .gallery-grid {
     column-count: 2;
   }
-  header {
+  .site-header {
     padding-block: 28px;
     margin-inline: 28px;
+  }
+
+  .artwork-item {
+    .item-header{
+      max-width: 445px;
+      max-height: fit-content;
+      top: 40px;
+      .item-header-capture{
+        padding-inline-end: 0;
+      }
+      .item-artist-image {
+        margin-inline-start: auto;
+        margin-inline-end: 55px;
+      }
+    }
+
+    .item-main {
+      flex-direction: column;
+      gap: 64px;
+      padding-block-start: 40px;
+      .item-images-hero {
+        /* width: 60%;
+        height: 100%; */  
+        height: 560px;
+        width: auto;
+        img{
+          height: 100%;
+        }
+      }
+    }
+    .btn-view-image {
+      top: 544px;
+      bottom: auto;
+    }
+    .item-description {
+      margin-block-start: 75px;
+      align-items: center;
+      margin-inline: auto;
+      width: 457px;
+      .item-description-text {
+        width: 100%;
+      }
+    }
   }
 }
 @media (max-width: 600px) {
