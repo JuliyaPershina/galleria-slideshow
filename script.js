@@ -51,7 +51,7 @@ function toggleSlideshow() {
 fetch('./data.json')
   .then((res) => res.json())
   .then((data) => {
-    slidesData = data; // Зберігаємо для глобального використання
+    slidesData = data; 
 
     masNamesDesktop.forEach((name) => {
       const item = data.find((art) => art.name === name);
@@ -230,8 +230,20 @@ function setupPopoverHandlers() {
   if (!btnViewImage || !btnClose || !popover) return;
 }
 
+
 function renderSlide(index) {
   const slide = slidesData[index];
+
+  // Визначаємо, яке зображення використовувати в hero
+  const isSmallScreen = window.matchMedia('(max-width: 600px)').matches;
+
+  if (isSmallScreen) {
+    console.log(`600px`);
+    
+  }
+  const heroImageSrc = isSmallScreen
+    ? slide.images.hero.small
+    : slide.images.hero.large;
 
   // Заголовок
   document
@@ -242,8 +254,10 @@ function renderSlide(index) {
     .forEach((el) => (el.textContent = slide.artist.name));
 
   // Зображення
-  document.querySelector('.item-images-hero img').src = slide.images.hero.large;
-  document.querySelector('.item-images-hero img').alt = slide.name;
+  const heroImg = document.querySelector('.item-images-hero img');
+  heroImg.src = heroImageSrc;
+  heroImg.alt = slide.name;
+
   document.querySelector('.item-artist-image img').src = slide.artist.image;
   document.querySelector('.item-description-text').textContent =
     slide.description;
@@ -261,7 +275,7 @@ function renderSlide(index) {
     '.progress-bar-fill'
   ).style.width = `${progressPercent}%`;
 
-  //  Поповерхове зображення (VIEW IMAGE)
+  // Поповер-зображення (VIEW IMAGE)
   const popImage = document.querySelector('#pop-picture img');
   if (popImage) {
     popImage.src = slide.images.gallery;
