@@ -1,5 +1,8 @@
 const gallery = document.getElementById('gallery');
 
+let currentIndex = 0;
+let slidesData = [];
+
 let masNamesDesktop = [
   'Starry Night',
   'The Storm on the Sea of Galilee',
@@ -25,30 +28,31 @@ const heroGallery = document.getElementById('hero-gallery');
 
 let isSlideshowActive = false;
 
-slideshowBtn.addEventListener('click', () => {
+slideshowBtn.addEventListener('click', toggleSlideshow);
+
+function toggleSlideshow() {
   isSlideshowActive = !isSlideshowActive;
 
   if (isSlideshowActive) {
-    // Увімкнено слайдшоу
     artworkTemplate.classList.remove('display-none');
     footer.classList.remove('display-none');
     heroGallery.classList.add('display-none');
     slideshowBtn.textContent = 'STOP SLIDESHOW';
 
-    // Викликати тільки після відображення DOM елементів
-    changeSlide();
+    changeSlide(); // показати перший слайд
   } else {
-    // Вимкнено слайдшоу
     artworkTemplate.classList.add('display-none');
     footer.classList.add('display-none');
     heroGallery.classList.remove('display-none');
     slideshowBtn.textContent = 'START SLIDESHOW';
   }
-});
+}
 
 fetch('./data.json')
   .then((res) => res.json())
   .then((data) => {
+    slidesData = data; // Зберігаємо для глобального використання
+
     masNamesDesktop.forEach((name) => {
       const item = data.find((art) => art.name === name);
       if (!item) return;
@@ -69,6 +73,21 @@ fetch('./data.json')
         <p class="artist-name">${item.artist.name}</p>
       `;
       card.appendChild(caption);
+
+      // Додаємо обробник кліку по мініатюрі
+      card.addEventListener('click', () => {
+        console.log(`КЛІК`);
+        
+        currentIndex = slidesData.findIndex((art) => art.name === item.name);
+        if (currentIndex === -1) return;
+
+        if (!isSlideshowActive) {
+          toggleSlideshow(); 
+        }
+
+        renderSlide(currentIndex);
+        updateButtonState();
+      });
 
       gallery.appendChild(card);
     });
@@ -148,12 +167,8 @@ mq600.addEventListener('change', updateMasNames);
 // -- slider  --------------------------------------------------
 
 
-let currentIndex = 0;
-let slidesData = [];
-
 const btnSlidePrev = document.querySelector('.btn-slide-prev');
 const btnSlideNext = document.querySelector('.btn-slide-next');
-
 
 let listenersAttached = false;
 
@@ -168,6 +183,7 @@ function changeSlide() {
       if (!listenersAttached) {
         btnSlidePrev.addEventListener('click', handlePrev);
         btnSlideNext.addEventListener('click', handleNext);
+        document.addEventListener('keydown', handleKeydown);
         listenersAttached = true;
       }
     });
@@ -178,7 +194,7 @@ function handlePrev() {
     currentIndex--;
     renderSlide(currentIndex);
     updateButtonState();
-      console.log(currentIndex);
+    console.log(currentIndex);
   }
 }
 function handleNext() {
@@ -186,7 +202,15 @@ function handleNext() {
     currentIndex++;
     renderSlide(currentIndex);
     updateButtonState();
-      console.log(currentIndex);
+    console.log(currentIndex);
+  }
+}
+
+function handleKeydown(event) {
+  if (event.key === 'ArrowLeft') {
+    handlePrev();
+  } else if (event.key === 'ArrowRight') {
+    handleNext();
   }
 }
 
@@ -249,4 +273,3 @@ document.addEventListener('DOMContentLoaded', () => {
   changeSlide(); // завантаження слайдів
   setupPopoverHandlers(); // слухачі поповера
 });
-
